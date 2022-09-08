@@ -1,0 +1,24 @@
+class Solution {
+public:
+     bool isNumericallyBalanced(int n){
+        string num = to_string(n);
+        int arr[10] = {};
+        for(auto el: num){
+            arr[el - '0']++;
+        }
+        for(int i = 0 ; i <= 9 ; i++){
+            if(arr[i] != 0 && i != arr[i]) return false;
+        }
+        return true;
+    }
+    int nextBeautifulNumber(int n) {
+        int candidate = n + 1;
+        while(true){
+            if(isNumericallyBalanced(candidate)){
+                break;
+            }
+            candidate++;
+        }
+        return candidate;
+    }
+};
