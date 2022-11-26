@@ -50,28 +50,48 @@ public:
 
 class Solution{
 public:
-    // function to construct tree from string
-    Node *treeFromString(string str){
-        // code here
-        stack<Node*> s;
-
-        for(int i=0; i<str.size(); i++) {
-            Node* child = NULL, *prnt = NULL;
-            if(str[i] != '(' && str[i] != ')') {
-                string n;
-                while(str[i] != '(' && str[i] != ')') n += str[i++];
-                s.push(new Node(stoi(n)));
-                i--;
-            }
-            else if(str[i] == ')') {
-                child = s.top(); s.pop();
-                prnt = s.top();
-                if(!prnt -> left) prnt -> left = child;
-                else prnt -> right = child;
-                
+int valid_path(int s, int e, string str){
+     if(s>e) return -1;
+        stack<char>st;
+        for(int i=s;i<=e;i++){
+            if(str[i]=='(')
+             st.push(str[i]);
+            else if(str[i]==')'){
+            st.pop();
+            if(st.size()==0) return i;
             }
         }
-        return s.top();
+        return -1;
+}
+    // function to construct tree from string
+    
+    Node *treeFromString(string str){
+       return solve(0,str.size()-1,str);
+    }
+    
+    Node * solve(int s,int e,string str){
+        if(s>e) return NULL;
+        //cout<<s<<" ";
+        int num=0;
+        
+        while(s<str.size() && isdigit(str[s])){
+            num = num*10 + str[s]-'0';
+            //cout<<str[s]<<" ";
+           /// cout<<num;
+            s++;
+        }
+        
+        Node*parent=new Node(num);
+        int index=-1;
+        
+        if(s<str.size() && str[s]=='(')
+            index=valid_path(s,e,str);
+        
+        if(index!=-1){
+            parent->left=solve(s+1,index-1,str);
+            parent->right=solve(index+2,e-1,str);
+        }
+        return parent;
     }
 };
 
