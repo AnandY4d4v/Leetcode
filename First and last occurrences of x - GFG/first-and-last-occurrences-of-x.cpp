@@ -6,7 +6,7 @@ using namespace std;
 vector<int> find(int arr[], int n , int x )
 {
     // code here
-     int a=INT_MAX,b=INT_MAX;
+     int a=-1,b=-1;
     
     for(int i=0;i<n;i++){
         if(arr[i]==x){
@@ -18,13 +18,10 @@ vector<int> find(int arr[], int n , int x )
             b=i;
         }
     }
-    //cout<<a<<" "<<b;
-    vector<int>v= {-1,-1};
-    if(a==INT_MAX && b==INT_MAX) {
-        return v;
-    }
-   v[0]=b;
-   v[1]=a;
+    vector<int>v;
+    v.push_back(b);
+    v.push_back(a);
+ 
     return v;
 }
 
